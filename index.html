@@ -13,8 +13,8 @@
     }
 
     .reel-container {
-      width: 80px;
-      height: 80px;
+      width: 90px;
+      height: 90px;
       overflow: hidden;
       border: 3px solid #1f2937;
       border-radius: 10px;
@@ -24,15 +24,14 @@
 
     @media (min-width: 640px) {
       .reel-container {
-        width: 110px;
-        height: 110px;
+        width: 120px;
+        height: 120px;
       }
     }
 
     .reel-strip {
       display: flex;
       flex-direction: column;
-      transition: transform 0s;
     }
 
     .reel-strip img {
@@ -64,12 +63,11 @@
 
 <body class="text-gray-200 min-h-screen px-4 sm:px-8 py-6">
 
-<!-- SLOT HEADER -->
 <div class="text-center mb-12">
   <img src="logo.png" class="w-48 sm:w-64 mx-auto mb-6">
 
   <div class="machine bg-gray-900 p-4 sm:p-6 rounded-xl border border-gray-800 w-full max-w-md mx-auto">
-    <div class="flex justify-center gap-3 mb-6">
+    <div class="flex justify-center gap-4 mb-6">
       <div class="reel-container"><div class="reel-strip" id="reel1"></div></div>
       <div class="reel-container"><div class="reel-strip" id="reel2"></div></div>
       <div class="reel-container"><div class="reel-strip" id="reel3"></div></div>
@@ -82,7 +80,6 @@
   </div>
 </div>
 
-<!-- TOOL -->
 <h1 class="text-2xl sm:text-3xl font-semibold mb-2 tracking-wide text-center">
   Sweeps Snapshot Pro
 </h1>
@@ -127,9 +124,7 @@
 
 <script>
 
-/* SLOT */
 const symbols = ["cherry.png","diamond.png","seven.png","logo.png"];
-const visibleHeight = 110;
 const spinLoops = 15;
 
 function buildReel(reelId) {
@@ -143,17 +138,15 @@ function buildReel(reelId) {
       reel.appendChild(img);
     });
   }
-
-  const finalLogo = document.createElement("img");
-  finalLogo.src = "logo.png";
-  reel.appendChild(finalLogo);
 }
 
 function spinSingleReel(reelId, delay) {
   const reel = document.getElementById(reelId);
   buildReel(reelId);
 
-  const totalHeight = reel.scrollHeight - visibleHeight;
+  const container = reel.parentElement;
+  const reelHeight = container.offsetHeight;
+  const totalHeight = reel.scrollHeight - reelHeight;
 
   reel.style.transition = "none";
   reel.style.transform = "translateY(0px)";
@@ -164,7 +157,7 @@ function spinSingleReel(reelId, delay) {
   }, 100);
 
   setTimeout(() => {
-    reel.parentElement.classList.add("win-glow");
+    container.classList.add("win-glow");
   }, (3000 + delay * 1000));
 }
 
@@ -182,61 +175,8 @@ buildReel("reel1");
 buildReel("reel2");
 buildReel("reel3");
 
-/* TOOL */
-const promos = [
-  { platform: "CrownCoins", url: "#", bonus: 60, wager: 5, cashback: 5, daily: 1, expires: "2026-03-15" },
-  { platform: "Stake.us", url: "#", bonus: 56, wager: 3, cashback: 8, daily: 1, expires: "2026-03-20" },
-  { platform: "Jackpota", url: "#", bonus: 35, wager: 3, cashback: 3, daily: 1, expires: "2026-03-22" }
-];
-
-function calculateValueScore(p) {
-  return ((p.bonus + (p.daily * 7)) / p.wager + (p.cashback / 10)).toFixed(2);
-}
-
-function riskLevel(wager) {
-  if (wager <= 1) return { label: "Low", color: "text-green-400" };
-  if (wager <= 5) return { label: "Medium", color: "text-yellow-400" };
-  return { label: "High", color: "text-red-500" };
-}
-
-function renderTable(data) {
-  const table = document.getElementById("promoTable");
-  table.innerHTML = "";
-
-  data.forEach(promo => {
-    const score = calculateValueScore(promo);
-    const risk = riskLevel(promo.wager);
-
-    table.innerHTML += `
-      <tr class="border-b border-gray-800">
-        <td class="p-3 font-semibold">
-          <a href="${promo.url}" target="_blank" class="site-link">
-            ${promo.platform}
-          </a>
-        </td>
-        <td class="p-3">$${promo.bonus}</td>
-        <td class="p-3">${promo.wager}x</td>
-        <td class="p-3">${promo.cashback}%</td>
-        <td class="p-3">$${promo.daily}</td>
-        <td class="p-3">${promo.expires}</td>
-        <td class="p-3 font-semibold text-green-400">${score}</td>
-        <td class="p-3 font-semibold ${risk.color}">${risk.label}</td>
-      </tr>
-    `;
-  });
-}
-
-document.getElementById("searchInput").addEventListener("input", function(e) {
-  const value = e.target.value.toLowerCase();
-  const filtered = promos.filter(p => 
-    p.platform.toLowerCase().includes(value)
-  );
-  renderTable(filtered);
-});
-
-renderTable(promos);
-
 </script>
 
 </body>
 </html>
+
