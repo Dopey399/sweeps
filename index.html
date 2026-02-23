@@ -114,83 +114,51 @@ class="p-2 rounded bg-gray-800 text-white w-full sm:w-64 outline-none"/>
 
 <script>
 
-const symbols=["cherry.png","diamond.png","seven.png","logo.png"];
+const symbols = ["cherry.png","diamond.png","seven.png","logo.png"];
 
-function setReel(id,symbol){
-  document.getElementById(id).innerHTML=`<img src="${symbol}">`;
+function setReel(id, symbol){
+  document.getElementById(id).innerHTML = `<img src="${symbol}">`;
 }
 
-function spinSingle(id,delay){
-  const reel=document.getElementById(id);
-  let spins=0;
-  const spinInterval=setInterval(()=>{
-    const randomSymbol=symbols[Math.floor(Math.random()*symbols.length)];
-    setReel(id,randomSymbol);
+function spinReel(id, stopDelay){
+
+  const reel = document.getElementById(id);
+  reel.classList.remove("win-glow");
+
+  let speed = 60;          // initial speed (fast)
+  let slowdown = 1.08;     // deceleration rate
+  let spins = 0;
+  let maxSpins = 25 + Math.floor(Math.random()*10); // random spin length
+
+  function animate(){
+    const randomSymbol = symbols[Math.floor(Math.random()*symbols.length)];
+    setReel(id, randomSymbol);
     spins++;
-    if(spins>20){
-      clearInterval(spinInterval);
-      setReel(id,"logo.png");
+
+    if(spins < maxSpins){
+      speed *= slowdown;
+      setTimeout(animate, speed);
+    } else {
+      const finalSymbol = symbols[Math.floor(Math.random()*symbols.length)];
+      setReel(id, finalSymbol);
       reel.classList.add("win-glow");
     }
-  },80);
+  }
 
-  setTimeout(()=>{},delay*1000);
+  setTimeout(animate, stopDelay);
 }
 
 function spinReels(){
-  document.querySelectorAll(".reel-container").forEach(r=>r.classList.remove("win-glow"));
-  spinSingle("reel1",0);
-  setTimeout(()=>spinSingle("reel2",0.3),300);
-  setTimeout(()=>spinSingle("reel3",0.6),600);
+  spinReel("reel1", 0);
+  spinReel("reel2", 250);
+  spinReel("reel3", 500);
 }
 
 setReel("reel1","logo.png");
 setReel("reel2","logo.png");
 setReel("reel3","logo.png");
 
-const promos=[
-{platform:"CrownCoins",bonus:60,wager:5,cashback:5,daily:1,expires:"2026-03-15"},
-{platform:"Stake.us",bonus:56,wager:3,cashback:8,daily:1,expires:"2026-03-20"},
-{platform:"Jackpota",bonus:35,wager:3,cashback:3,daily:1,expires:"2026-03-22"}
-];
-
-function calculateValueScore(p){
-return ((p.bonus+(p.daily*7))/p.wager+(p.cashback/10)).toFixed(2);
-}
-
-function riskLevel(w){
-if(w<=1)return{label:"Low",color:"text-green-400"};
-if(w<=5)return{label:"Medium",color:"text-yellow-400"};
-return{label:"High",color:"text-red-500"};
-}
-
-function renderTable(data){
-const table=document.getElementById("promoTable");
-table.innerHTML="";
-data.forEach(p=>{
-const score=calculateValueScore(p);
-const risk=riskLevel(p.wager);
-table.innerHTML+=`
-<tr class="border-b border-gray-800">
-<td class="p-3 font-semibold">${p.platform}</td>
-<td class="p-3">$${p.bonus}</td>
-<td class="p-3">${p.wager}x</td>
-<td class="p-3">${p.cashback}%</td>
-<td class="p-3">$${p.daily}</td>
-<td class="p-3">${p.expires}</td>
-<td class="p-3 font-semibold text-green-400">${score}</td>
-<td class="p-3 font-semibold ${risk.color}">${risk.label}</td>
-</tr>`;
-});
-}
-
-document.getElementById("searchInput").addEventListener("input",e=>{
-const value=e.target.value.toLowerCase();
-renderTable(promos.filter(p=>p.platform.toLowerCase().includes(value)));
-});
-
-renderTable(promos);
-
 </script>
 </body>
 </html>
+
