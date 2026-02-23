@@ -21,12 +21,11 @@ html,body{
 .reel-container{
   width:100px;
   height:100px;
+  overflow:hidden;
   border:3px solid #1f2937;
   border-radius:10px;
   background:#111827;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  position:relative;
 }
 
 @media(min-width:640px){
@@ -36,10 +35,24 @@ html,body{
   }
 }
 
-.reel-container img{
-  width:90%;
-  height:90%;
+.reel-strip{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+}
+
+.reel-strip img{
+  width:100%;
+  height:100px;
   object-fit:contain;
+  display:block;
+}
+
+@media(min-width:640px){
+  .reel-strip img{
+    height:130px;
+  }
 }
 
 .win-glow{
@@ -50,9 +63,6 @@ html,body{
   from{box-shadow:0 0 10px rgba(0,255,0,0.2);}
   to{box-shadow:0 0 25px rgba(0,255,0,0.7);}
 }
-
-.site-link{color:#38bdf8;}
-.site-link:hover{text-decoration:underline;color:#60a5fa;}
 </style>
 </head>
 
@@ -60,105 +70,82 @@ html,body{
 
 <section class="min-h-screen flex flex-col items-center justify-center text-center px-4">
 
-  <img src="logo.png" class="w-44 sm:w-56 mb-6">
+<img src="logo.png" class="w-44 sm:w-56 mb-6">
 
-  <div class="machine bg-gray-900 p-5 rounded-xl border border-gray-800 w-full max-w-md">
-    <div class="flex justify-center gap-4 mb-6">
-      <div class="reel-container" id="reel1"></div>
-      <div class="reel-container" id="reel2"></div>
-      <div class="reel-container" id="reel3"></div>
+<div class="machine bg-gray-900 p-5 rounded-xl border border-gray-800 w-full max-w-md">
+  <div class="flex justify-center gap-4 mb-6">
+    <div class="reel-container">
+      <div class="reel-strip" id="reel1"></div>
     </div>
-
-    <button onclick="spinReels()" 
-      class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg font-semibold w-full">
-      Spin
-    </button>
+    <div class="reel-container">
+      <div class="reel-strip" id="reel2"></div>
+    </div>
+    <div class="reel-container">
+      <div class="reel-strip" id="reel3"></div>
+    </div>
   </div>
 
-</section>
-
-<section class="px-4 sm:px-8 pb-12">
-
-<h1 class="text-2xl sm:text-3xl font-semibold mb-2 text-center">
-Sweeps Snapshot Pro
-</h1>
-
-<p class="text-gray-400 mb-6 text-center">
-Edge scoring • Trap detection • Bankroll impact • CSV export
-</p>
-
-<div class="flex flex-col sm:flex-row gap-3 mb-6 justify-center">
-<input type="text" id="searchInput" placeholder="Search platform..."
-class="p-2 rounded bg-gray-800 text-white w-full sm:w-64 outline-none"/>
-</div>
-
-<div class="overflow-x-auto rounded-lg border border-gray-800">
-<table class="min-w-full text-xs sm:text-sm">
-<thead class="bg-gray-800">
-<tr>
-<th class="p-3 text-left">Platform</th>
-<th class="p-3 text-left">Bonus</th>
-<th class="p-3 text-left">Wager</th>
-<th class="p-3 text-left">Cashback %</th>
-<th class="p-3 text-left">Daily Bonus</th>
-<th class="p-3 text-left">Expires</th>
-<th class="p-3 text-left">Value Score</th>
-<th class="p-3 text-left">Risk</th>
-</tr>
-</thead>
-<tbody id="promoTable"></tbody>
-</table>
+  <button onclick="spinReels()" 
+  class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg font-semibold w-full">
+  Spin
+  </button>
 </div>
 
 </section>
 
 <script>
 
-const symbols = ["cherry.png","diamond.png","seven.png","logo.png"];
+const symbols=["cherry.png","diamond.png","seven.png","logo.png"];
+const loops=25;
 
-function setReel(id, symbol){
-  document.getElementById(id).innerHTML = `<img src="${symbol}">`;
+function buildReel(id){
+  const reel=document.getElementById(id);
+  reel.innerHTML="";
+  for(let i=0;i<loops;i++){
+    symbols.forEach(sym=>{
+      const img=document.createElement("img");
+      img.src=sym;
+      reel.appendChild(img);
+    });
+  }
+  // final landing symbol (always logo)
+  const final=document.createElement("img");
+  final.src="logo.png";
+  reel.appendChild(final);
 }
 
-function spinReel(id, stopDelay){
+function spinSingle(id,delay){
+  const reel=document.getElementById(id);
+  buildReel(id);
 
-  const reel = document.getElementById(id);
-  reel.classList.remove("win-glow");
+  const containerHeight=reel.parentElement.offsetHeight;
+  const totalHeight=reel.scrollHeight-containerHeight;
 
-  let speed = 60;          // initial speed (fast)
-  let slowdown = 1.08;     // deceleration rate
-  let spins = 0;
-  let maxSpins = 25 + Math.floor(Math.random()*10); // random spin length
+  reel.style.transition="none";
+  reel.style.transform="translateY(0px)";
 
-  function animate(){
-    const randomSymbol = symbols[Math.floor(Math.random()*symbols.length)];
-    setReel(id, randomSymbol);
-    spins++;
+  setTimeout(()=>{
+    reel.style.transition=`transform ${3+delay}s cubic-bezier(.15,.8,.2,1)`;
+    reel.style.transform=`translateY(-${totalHeight}px)`;
+  },100);
 
-    if(spins < maxSpins){
-      speed *= slowdown;
-      setTimeout(animate, speed);
-    } else {
-      const finalSymbol = symbols[Math.floor(Math.random()*symbols.length)];
-      setReel(id, finalSymbol);
-      reel.classList.add("win-glow");
-    }
-  }
-
-  setTimeout(animate, stopDelay);
+  setTimeout(()=>{
+    reel.parentElement.classList.add("win-glow");
+  },3000+(delay*1000));
 }
 
 function spinReels(){
-  spinReel("reel1", 0);
-  spinReel("reel2", 250);
-  spinReel("reel3", 500);
+  document.querySelectorAll(".reel-container").forEach(r=>r.classList.remove("win-glow"));
+  spinSingle("reel1",0);
+  spinSingle("reel2",0.5);
+  spinSingle("reel3",1);
 }
 
-setReel("reel1","logo.png");
-setReel("reel2","logo.png");
-setReel("reel3","logo.png");
+buildReel("reel1");
+buildReel("reel2");
+buildReel("reel3");
 
 </script>
+
 </body>
 </html>
-
