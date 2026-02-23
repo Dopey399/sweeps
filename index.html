@@ -301,7 +301,37 @@ renderTable(promos.filter(p=>p.platform.toLowerCase().includes(value)));
 renderTable(promos);
 
 </script>
+<footer class="border-t border-gray-800 mt-12 pt-6 pb-8 text-center text-sm text-gray-400">
 
+  <div class="mb-3">
+    <a href="https://www.illbid.com" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 hover:underline">
+       
+      Visit illbid.com
+      
+      <!-- External Link Icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" 
+           width="16" height="16" 
+           fill="currentColor" 
+           viewBox="0 0 16 16">
+        <path d="M6 3a.5.5 0 0 1 .5-.5H13a.5.5 0 0 1 .5.5v6.5a.5.5 0 0 1-1 0V4.707L4.854 12.354a.5.5 0 1 1-.708-.708L11.793 4H6.5A.5.5 0 0 1 6 3z"/>
+        <path d="M13.5 13a.5.5 0 0 1-.5.5H3A2 2 0 0 1 1 11.5V3a2 2 0 0 1 2-2h6.5a.5.5 0 0 1 0 1H3a1 1 0 0 0-1 1v8.5a1 1 0 0 0 1 1h10a.5.5 0 0 1 .5.5z"/>
+      </svg>
+    </a>
+  </div>
+
+  <div>
+    © <span id="year"></span> A Townsend Solution
+  </div>
+
+</footer>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
+
 
