@@ -21,11 +21,12 @@ html,body{
 .reel-container{
   width:100px;
   height:100px;
-  overflow:hidden;
   border:3px solid #1f2937;
   border-radius:10px;
   background:#111827;
-  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 @media(min-width:640px){
@@ -35,16 +36,10 @@ html,body{
   }
 }
 
-.reel-strip{
-  display:flex;
-  flex-direction:column;
-}
-
-.reel-strip img{
-  width:100%;
-  height:100%;
+.reel-container img{
+  width:90%;
+  height:90%;
   object-fit:contain;
-  display:block;
 }
 
 .win-glow{
@@ -63,16 +58,15 @@ html,body{
 
 <body>
 
-<!-- HERO -->
 <section class="min-h-screen flex flex-col items-center justify-center text-center px-4">
 
   <img src="logo.png" class="w-44 sm:w-56 mb-6">
 
   <div class="machine bg-gray-900 p-5 rounded-xl border border-gray-800 w-full max-w-md">
     <div class="flex justify-center gap-4 mb-6">
-      <div class="reel-container"><div class="reel-strip" id="reel1"></div></div>
-      <div class="reel-container"><div class="reel-strip" id="reel2"></div></div>
-      <div class="reel-container"><div class="reel-strip" id="reel3"></div></div>
+      <div class="reel-container" id="reel1"></div>
+      <div class="reel-container" id="reel2"></div>
+      <div class="reel-container" id="reel3"></div>
     </div>
 
     <button onclick="spinReels()" 
@@ -83,7 +77,6 @@ html,body{
 
 </section>
 
-<!-- TOOL -->
 <section class="px-4 sm:px-8 pb-12">
 
 <h1 class="text-2xl sm:text-3xl font-semibold mb-2 text-center">
@@ -97,9 +90,6 @@ Edge scoring • Trap detection • Bankroll impact • CSV export
 <div class="flex flex-col sm:flex-row gap-3 mb-6 justify-center">
 <input type="text" id="searchInput" placeholder="Search platform..."
 class="p-2 rounded bg-gray-800 text-white w-full sm:w-64 outline-none"/>
-
-<input type="number" id="bankrollInput" placeholder="Your Bankroll ($)"
-class="p-2 rounded bg-gray-800 text-white w-full sm:w-48 outline-none"/>
 </div>
 
 <div class="overflow-x-auto rounded-lg border border-gray-800">
@@ -125,69 +115,43 @@ class="p-2 rounded bg-gray-800 text-white w-full sm:w-48 outline-none"/>
 <script>
 
 const symbols=["cherry.png","diamond.png","seven.png","logo.png"];
-const spinLoops=20;
 
-function buildReel(id){
-const reel=document.getElementById(id);
-reel.innerHTML="";
-for(let i=0;i<spinLoops;i++){
-symbols.forEach(sym=>{
-const img=document.createElement("img");
-img.src=sym;
-reel.appendChild(img);
-});
-}
+function setReel(id,symbol){
+  document.getElementById(id).innerHTML=`<img src="${symbol}">`;
 }
 
 function spinSingle(id,delay){
-const reel=document.getElementById(id);
-buildReel(id);
+  const reel=document.getElementById(id);
+  let spins=0;
+  const spinInterval=setInterval(()=>{
+    const randomSymbol=symbols[Math.floor(Math.random()*symbols.length)];
+    setReel(id,randomSymbol);
+    spins++;
+    if(spins>20){
+      clearInterval(spinInterval);
+      setReel(id,"logo.png");
+      reel.classList.add("win-glow");
+    }
+  },80);
 
-const container=reel.parentElement;
-const symbolHeight=container.offsetHeight;
-const totalSymbols=reel.children.length;
-
-reel.style.transition="none";
-reel.style.transform="translateY(0px)";
-
-setTimeout(()=>{
-reel.style.transition=`transform ${3+delay}s cubic-bezier(.17,.67,.12,1.1)`;
-reel.style.transform=`translateY(-${(totalSymbols-symbols.length)*symbolHeight}px)`;
-},100);
-
-setTimeout(()=>{
-container.classList.add("win-glow");
-},3000+(delay*1000));
+  setTimeout(()=>{},delay*1000);
 }
 
 function spinReels(){
-document.querySelectorAll(".reel-container").forEach(r=>r.classList.remove("win-glow"));
-spinSingle("reel1",0);
-spinSingle("reel2",0.5);
-spinSingle("reel3",1);
+  document.querySelectorAll(".reel-container").forEach(r=>r.classList.remove("win-glow"));
+  spinSingle("reel1",0);
+  setTimeout(()=>spinSingle("reel2",0.3),300);
+  setTimeout(()=>spinSingle("reel3",0.6),600);
 }
 
-buildReel("reel1");
-buildReel("reel2");
-buildReel("reel3");
+setReel("reel1","logo.png");
+setReel("reel2","logo.png");
+setReel("reel3","logo.png");
 
-/* PROMO LIST */
 const promos=[
 {platform:"CrownCoins",bonus:60,wager:5,cashback:5,daily:1,expires:"2026-03-15"},
-{platform:"LoneStar Casino",bonus:105,wager:5,cashback:3,daily:1,expires:"2026-03-15"},
 {platform:"Stake.us",bonus:56,wager:3,cashback:8,daily:1,expires:"2026-03-20"},
-{platform:"McLuck Casino",bonus:30,wager:4,cashback:2,daily:1,expires:"2026-03-15"},
-{platform:"MegaBonanza",bonus:50,wager:4,cashback:1,daily:0.8,expires:"2026-03-12"},
-{platform:"Jackpota",bonus:35,wager:3,cashback:3,daily:1,expires:"2026-03-22"},
-{platform:"Sixty6 Casino",bonus:2,wager:6,cashback:0,daily:0.5,expires:"2026-03-10"},
-{platform:"SweepNext Casino",bonus:50,wager:4,cashback:2,daily:0.7,expires:"2026-03-18"},
-{platform:"Sweet Sweeps Casino",bonus:40,wager:5,cashback:2,daily:0.7,expires:"2026-03-14"},
-{platform:"Hello Millions",bonus:25,wager:4,cashback:1,daily:0.6,expires:"2026-03-15"},
-{platform:"Rolla Casino",bonus:30,wager:4,cashback:2,daily:0.8,expires:"2026-03-15"},
-{platform:"MyPrize.US",bonus:60,wager:3,cashback:3,daily:1,expires:"2026-03-20"},
-{platform:"Spree Casino",bonus:50,wager:4,cashback:2,daily:0.7,expires:"2026-03-16"},
-{platform:"Fortune Coins",bonus:20,wager:5,cashback:1,daily:0.4,expires:"2026-03-10"},
-{platform:"ACE.com Casino",bonus:2.5,wager:5,cashback:0,daily:0.5,expires:"2026-03-18"}
+{platform:"Jackpota",bonus:35,wager:3,cashback:3,daily:1,expires:"2026-03-22"}
 ];
 
 function calculateValueScore(p){
