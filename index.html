@@ -11,6 +11,7 @@ html,body{
   padding:0;
   background:#0f172a;
   color:#e5e7eb;
+  font-family:sans-serif;
 }
 
 .machine{
@@ -18,18 +19,19 @@ html,body{
 }
 
 .reel-container{
-  width:95px;
-  height:95px;
+  width:100px;
+  height:100px;
   overflow:hidden;
   border:3px solid #1f2937;
   border-radius:10px;
   background:#111827;
+  position:relative;
 }
 
 @media(min-width:640px){
   .reel-container{
-    width:125px;
-    height:125px;
+    width:130px;
+    height:130px;
   }
 }
 
@@ -42,7 +44,7 @@ html,body{
   width:100%;
   height:100%;
   object-fit:contain;
-  padding:6px;
+  display:block;
 }
 
 .win-glow{
@@ -61,13 +63,13 @@ html,body{
 
 <body>
 
-<!-- HERO SECTION -->
+<!-- HERO -->
 <section class="min-h-screen flex flex-col items-center justify-center text-center px-4">
 
-  <img src="logo.png" class="w-44 sm:w-56 mb-4">
+  <img src="logo.png" class="w-44 sm:w-56 mb-6">
 
-  <div class="machine bg-gray-900 p-4 rounded-xl border border-gray-800 w-full max-w-md">
-    <div class="flex justify-center gap-4 mb-5">
+  <div class="machine bg-gray-900 p-5 rounded-xl border border-gray-800 w-full max-w-md">
+    <div class="flex justify-center gap-4 mb-6">
       <div class="reel-container"><div class="reel-strip" id="reel1"></div></div>
       <div class="reel-container"><div class="reel-strip" id="reel2"></div></div>
       <div class="reel-container"><div class="reel-strip" id="reel3"></div></div>
@@ -81,7 +83,7 @@ html,body{
 
 </section>
 
-<!-- TOOL SECTION -->
+<!-- TOOL -->
 <section class="px-4 sm:px-8 pb-12">
 
 <h1 class="text-2xl sm:text-3xl font-semibold mb-2 text-center">
@@ -123,7 +125,7 @@ class="p-2 rounded bg-gray-800 text-white w-full sm:w-48 outline-none"/>
 <script>
 
 const symbols=["cherry.png","diamond.png","seven.png","logo.png"];
-const spinLoops=15;
+const spinLoops=20;
 
 function buildReel(id){
 const reel=document.getElementById(id);
@@ -141,25 +143,21 @@ function spinSingle(id,delay){
 const reel=document.getElementById(id);
 buildReel(id);
 
-setTimeout(()=>{
-const images=reel.querySelectorAll("img");
-const symbolHeight=images[0].offsetHeight;
-const totalSymbols=images.length;
-const finalOffset=(totalSymbols-1)*symbolHeight;
+const container=reel.parentElement;
+const symbolHeight=container.offsetHeight;
+const totalSymbols=reel.children.length;
 
 reel.style.transition="none";
 reel.style.transform="translateY(0px)";
 
 setTimeout(()=>{
 reel.style.transition=`transform ${3+delay}s cubic-bezier(.17,.67,.12,1.1)`;
-reel.style.transform=`translateY(-${finalOffset}px)`;
+reel.style.transform=`translateY(-${(totalSymbols-symbols.length)*symbolHeight}px)`;
 },100);
 
 setTimeout(()=>{
-reel.parentElement.classList.add("win-glow");
+container.classList.add("win-glow");
 },3000+(delay*1000));
-
-},50);
 }
 
 function spinReels(){
@@ -173,6 +171,7 @@ buildReel("reel1");
 buildReel("reel2");
 buildReel("reel3");
 
+/* PROMO LIST */
 const promos=[
 {platform:"CrownCoins",bonus:60,wager:5,cashback:5,daily:1,expires:"2026-03-15"},
 {platform:"LoneStar Casino",bonus:105,wager:5,cashback:3,daily:1,expires:"2026-03-15"},
