@@ -93,8 +93,45 @@ html,body{
 
 </section>
 
+<!-- LIST SECTION -->
+<section class="px-4 sm:px-8 pb-12">
+
+<h1 class="text-2xl sm:text-3xl font-semibold mb-2 text-center">
+Sweeps Snapshot Pro
+</h1>
+
+<p class="text-gray-400 mb-6 text-center">
+Edge scoring • Trap detection • Bankroll impact • CSV export
+</p>
+
+<div class="flex justify-center mb-6">
+<input type="text" id="searchInput" placeholder="Search platform..."
+class="p-2 rounded bg-gray-800 text-white w-full sm:w-64 outline-none"/>
+</div>
+
+<div class="overflow-x-auto rounded-lg border border-gray-800">
+<table class="min-w-full text-xs sm:text-sm">
+<thead class="bg-gray-800">
+<tr>
+<th class="p-3 text-left">Platform</th>
+<th class="p-3 text-left">Bonus</th>
+<th class="p-3 text-left">Wager</th>
+<th class="p-3 text-left">Cashback %</th>
+<th class="p-3 text-left">Daily Bonus</th>
+<th class="p-3 text-left">Expires</th>
+<th class="p-3 text-left">Value Score</th>
+<th class="p-3 text-left">Risk</th>
+</tr>
+</thead>
+<tbody id="promoTable"></tbody>
+</table>
+</div>
+
+</section>
+
 <script>
 
+/* REELS */
 const symbols=["cherry.png","diamond.png","seven.png","logo.png"];
 const loops=25;
 
@@ -108,7 +145,6 @@ function buildReel(id){
       reel.appendChild(img);
     });
   }
-  // final landing symbol (always logo)
   const final=document.createElement("img");
   final.src="logo.png";
   reel.appendChild(final);
@@ -144,6 +180,62 @@ function spinReels(){
 buildReel("reel1");
 buildReel("reel2");
 buildReel("reel3");
+
+/* FULL PROMO LIST */
+const promos=[
+{platform:"CrownCoins",bonus:60,wager:5,cashback:5,daily:1,expires:"2026-03-15"},
+{platform:"LoneStar Casino",bonus:105,wager:5,cashback:3,daily:1,expires:"2026-03-15"},
+{platform:"Stake.us",bonus:56,wager:3,cashback:8,daily:1,expires:"2026-03-20"},
+{platform:"McLuck Casino",bonus:30,wager:4,cashback:2,daily:1,expires:"2026-03-15"},
+{platform:"MegaBonanza",bonus:50,wager:4,cashback:1,daily:0.8,expires:"2026-03-12"},
+{platform:"Jackpota",bonus:35,wager:3,cashback:3,daily:1,expires:"2026-03-22"},
+{platform:"Sixty6 Casino",bonus:2,wager:6,cashback:0,daily:0.5,expires:"2026-03-10"},
+{platform:"SweepNext Casino",bonus:50,wager:4,cashback:2,daily:0.7,expires:"2026-03-18"},
+{platform:"Sweet Sweeps Casino",bonus:40,wager:5,cashback:2,daily:0.7,expires:"2026-03-14"},
+{platform:"Hello Millions",bonus:25,wager:4,cashback:1,daily:0.6,expires:"2026-03-15"},
+{platform:"Rolla Casino",bonus:30,wager:4,cashback:2,daily:0.8,expires:"2026-03-15"},
+{platform:"MyPrize.US",bonus:60,wager:3,cashback:3,daily:1,expires:"2026-03-20"},
+{platform:"Spree Casino",bonus:50,wager:4,cashback:2,daily:0.7,expires:"2026-03-16"},
+{platform:"Fortune Coins",bonus:20,wager:5,cashback:1,daily:0.4,expires:"2026-03-10"},
+{platform:"ACE.com Casino",bonus:2.5,wager:5,cashback:0,daily:0.5,expires:"2026-03-18"}
+];
+
+function calculateValueScore(p){
+return ((p.bonus+(p.daily*7))/p.wager+(p.cashback/10)).toFixed(2);
+}
+
+function riskLevel(w){
+if(w<=1)return{label:"Low",color:"text-green-400"};
+if(w<=5)return{label:"Medium",color:"text-yellow-400"};
+return{label:"High",color:"text-red-500"};
+}
+
+function renderTable(data){
+const table=document.getElementById("promoTable");
+table.innerHTML="";
+data.forEach(p=>{
+const score=calculateValueScore(p);
+const risk=riskLevel(p.wager);
+table.innerHTML+=`
+<tr class="border-b border-gray-800">
+<td class="p-3 font-semibold">${p.platform}</td>
+<td class="p-3">$${p.bonus}</td>
+<td class="p-3">${p.wager}x</td>
+<td class="p-3">${p.cashback}%</td>
+<td class="p-3">$${p.daily}</td>
+<td class="p-3">${p.expires}</td>
+<td class="p-3 font-semibold text-green-400">${score}</td>
+<td class="p-3 font-semibold ${risk.color}">${risk.label}</td>
+</tr>`;
+});
+}
+
+document.getElementById("searchInput").addEventListener("input",e=>{
+const value=e.target.value.toLowerCase();
+renderTable(promos.filter(p=>p.platform.toLowerCase().includes(value)));
+});
+
+renderTable(promos);
 
 </script>
 
