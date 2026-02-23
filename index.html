@@ -6,46 +6,46 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-body { background:#0f172a; }
+body{background:#0f172a;}
 
-.machine { box-shadow:0 0 40px rgba(0,255,0,0.15); }
+.machine{box-shadow:0 0 40px rgba(0,255,0,0.15);}
 
 .reel-container{
-  width:90px;
-  height:90px;
-  overflow:hidden;
-  border:3px solid #1f2937;
-  border-radius:10px;
-  background:#111827;
-  position:relative;
+width:95px;
+height:95px;
+overflow:hidden;
+border:3px solid #1f2937;
+border-radius:10px;
+background:#111827;
+position:relative;
 }
 
 @media(min-width:640px){
-  .reel-container{
-    width:120px;
-    height:120px;
-  }
+.reel-container{
+width:125px;
+height:125px;
+}
 }
 
 .reel-strip{
-  display:flex;
-  flex-direction:column;
+display:flex;
+flex-direction:column;
 }
 
 .reel-strip img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  padding:8px;
+width:100%;
+height:100%;
+object-fit:contain;
+padding:6px;
 }
 
 .win-glow{
-  animation:glow 1s ease-in-out infinite alternate;
+animation:glow 1s ease-in-out infinite alternate;
 }
 
 @keyframes glow{
-  from{box-shadow:0 0 10px rgba(0,255,0,0.2);}
-  to{box-shadow:0 0 25px rgba(0,255,0,0.7);}
+from{box-shadow:0 0 10px rgba(0,255,0,0.2);}
+to{box-shadow:0 0 25px rgba(0,255,0,0.7);}
 }
 
 .site-link{color:#38bdf8;}
@@ -53,25 +53,26 @@ body { background:#0f172a; }
 </style>
 </head>
 
-<body class="text-gray-200 min-h-screen px-4 sm:px-8 py-6">
+<body class="text-gray-200 min-h-screen px-4 sm:px-8 pt-4 pb-6">
 
-<div class="text-center mb-12">
-<img src="logo.png" class="w-48 sm:w-64 mx-auto mb-6">
+<div class="text-center mb-8">
+<img src="logo.png" class="w-44 sm:w-56 mx-auto mb-4">
 
-<div class="machine bg-gray-900 p-4 sm:p-6 rounded-xl border border-gray-800 w-full max-w-md mx-auto">
-<div class="flex justify-center gap-4 mb-6">
+<div class="machine bg-gray-900 p-3 sm:p-5 rounded-xl border border-gray-800 w-full max-w-md mx-auto">
+<div class="flex justify-center gap-4 mb-5">
 <div class="reel-container"><div class="reel-strip" id="reel1"></div></div>
 <div class="reel-container"><div class="reel-strip" id="reel2"></div></div>
 <div class="reel-container"><div class="reel-strip" id="reel3"></div></div>
 </div>
 
-<button onclick="spinReels()" class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg font-semibold w-full">
+<button onclick="spinReels()" 
+class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg font-semibold w-full">
 Spin
 </button>
 </div>
 </div>
 
-<h1 class="text-2xl sm:text-3xl font-semibold mb-2 tracking-wide text-center">
+<h1 class="text-2xl sm:text-3xl font-semibold mb-2 text-center">
 Sweeps Snapshot Pro
 </h1>
 
@@ -122,37 +123,30 @@ reel.appendChild(img);
 }
 }
 
-function spinSingle(id, delay) {
-  const reel = document.getElementById(id);
-  buildReel(id);
+function spinSingle(id,delay){
+const reel=document.getElementById(id);
+buildReel(id);
 
-  const container = reel.parentElement;
-  const images = reel.querySelectorAll("img");
+setTimeout(()=>{
+const images=reel.querySelectorAll("img");
+const symbolHeight=images[0].offsetHeight;
+const totalSymbols=images.length;
+const finalOffset=(totalSymbols-1)*symbolHeight;
 
-  // Wait for images to render
-  setTimeout(() => {
+reel.style.transition="none";
+reel.style.transform="translateY(0px)";
 
-    const symbolHeight = images[0].offsetHeight;
-    const totalSymbols = images.length;
+setTimeout(()=>{
+reel.style.transition=`transform ${3+delay}s cubic-bezier(.17,.67,.12,1.1)`;
+reel.style.transform=`translateY(-${finalOffset}px)`;
+},100);
 
-    // Land on last symbol cleanly
-    const finalOffset = (totalSymbols - 1) * symbolHeight;
+setTimeout(()=>{
+reel.parentElement.classList.add("win-glow");
+},3000+(delay*1000));
 
-    reel.style.transition = "none";
-    reel.style.transform = "translateY(0px)";
-
-    setTimeout(() => {
-      reel.style.transition = `transform ${3 + delay}s cubic-bezier(.17,.67,.12,1.1)`;
-      reel.style.transform = `translateY(-${finalOffset}px)`;
-    }, 100);
-
-    setTimeout(() => {
-      container.classList.add("win-glow");
-    }, 3000 + (delay * 1000));
-
-  }, 50);
+},50);
 }
-
 
 function spinReels(){
 document.querySelectorAll(".reel-container").forEach(r=>r.classList.remove("win-glow"));
@@ -165,8 +159,7 @@ buildReel("reel1");
 buildReel("reel2");
 buildReel("reel3");
 
-/* FULL PROMO LIST RESTORED */
-const promos = [
+const promos=[
 {platform:"CrownCoins",bonus:60,wager:5,cashback:5,daily:1,expires:"2026-03-15"},
 {platform:"LoneStar Casino",bonus:105,wager:5,cashback:3,daily:1,expires:"2026-03-15"},
 {platform:"Stake.us",bonus:56,wager:3,cashback:8,daily:1,expires:"2026-03-20"},
@@ -224,5 +217,3 @@ renderTable(promos);
 </script>
 </body>
 </html>
-
-
