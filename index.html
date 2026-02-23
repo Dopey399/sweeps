@@ -1,33 +1,9 @@
 <!DOCTYPE html>
 <html>
-<head><?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://sweeps.tradelotdeals.com/</loc>
-    <priority>1.0</priority>
-  </url>
-</urlset>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sweeps Snapshot Pro | Sweepstakes Casino Bonus & Wagering Comparison Tool</title>
-  <!-- SEO META -->
+<head>
 <meta charset="UTF-8">
-<meta name="description" content="Sweeps Snapshot Pro tracks sweepstakes casino bonuses, wagering requirements, cashback offers, and edge value scoring to help players compare promotions intelligently.">
-<meta name="keywords" content="sweepstakes casinos, sweeps casino bonuses, wagering requirements, sweepstakes comparison tool, casino promo tracker, sweeps value score">
-<meta name="author" content="A Townsend Solution">
-<meta name="robots" content="index, follow">
-
-<!-- Open Graph (for sharing previews) -->
-<meta property="og:title" content="Sweeps Snapshot Pro - Sweepstakes Casino Bonus Tracker">
-<meta property="og:description" content="Compare sweepstakes casino bonuses, wagering requirements, cashback rates, and value scores in one place.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://sweeps.tradelotdeals.com">
-<meta property="og:image" content="https://sweeps.tradelotdeals.com/logo.png">
-
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Sweeps Snapshot Pro">
-<meta name="twitter:description" content="Compare sweepstakes casino bonuses and value scores intelligently.">
-<meta name="twitter:image" content="https://sweeps.tradelotdeals.com/logo.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sweeps Snapshot Pro | Live Sweepstakes Casino Comparison Tool</title>
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
@@ -89,39 +65,18 @@ html,body{
   to{box-shadow:0 0 25px rgba(0,255,0,0.7);}
 }
 </style>
-  <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Sweeps Snapshot Pro",
-  "description": "A comparison tool for sweepstakes casino bonuses, wagering requirements, cashback rates, and value scoring.",
-  "applicationCategory": "FinanceApplication",
-  "operatingSystem": "Web",
-  "author": {
-    "@type": "Organization",
-    "name": "A Townsend Solution"
-  }
-}
-</script>
 </head>
 
 <body>
 
 <section class="min-h-screen flex flex-col items-center justify-center text-center px-4">
-
 <img src="logo.png" class="w-44 sm:w-56 mb-6">
 
 <div class="machine bg-gray-900 p-5 rounded-xl border border-gray-800 w-full max-w-md">
   <div class="flex justify-center gap-4 mb-6">
-    <div class="reel-container">
-      <div class="reel-strip" id="reel1"></div>
-    </div>
-    <div class="reel-container">
-      <div class="reel-strip" id="reel2"></div>
-    </div>
-    <div class="reel-container">
-      <div class="reel-strip" id="reel3"></div>
-    </div>
+    <div class="reel-container"><div class="reel-strip" id="reel1"></div></div>
+    <div class="reel-container"><div class="reel-strip" id="reel2"></div></div>
+    <div class="reel-container"><div class="reel-strip" id="reel3"></div></div>
   </div>
 
   <button onclick="spinReels()" 
@@ -129,19 +84,13 @@ html,body{
   Spin
   </button>
 </div>
-
 </section>
 
-<!-- LIST SECTION -->
 <section class="px-4 sm:px-8 pb-12">
 
-<h1 class="text-2xl sm:text-3xl font-semibold mb-2 text-center">
-Sweeps Snapshot Pro
+<h1 class="text-2xl sm:text-3xl font-semibold mb-6 text-center">
+Live Sweepstakes Casino Comparison
 </h1>
-
-<p class="text-gray-400 mb-6 text-center">
-Edge scoring • Trap detection • Bankroll impact • CSV export
-</p>
 
 <div class="flex justify-center mb-6">
 <input type="text" id="searchInput" placeholder="Search platform..."
@@ -168,9 +117,28 @@ class="p-2 rounded bg-gray-800 text-white w-full sm:w-64 outline-none"/>
 
 </section>
 
-<script>
+<footer class="border-t border-gray-800 mt-12 pt-6 pb-8 text-center text-sm text-gray-400">
+  <div class="mb-3">
+    <a href="https://www.illbid.com" target="_blank" rel="noopener noreferrer"
+       class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 hover:underline">
+      Visit illbid.com
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+           fill="currentColor" viewBox="0 0 16 16">
+        <path d="M6 3a.5.5 0 0 1 .5-.5H13a.5.5 0 0 1 .5.5v6.5a.5.5 0 0 1-1 0V4.707L4.854 12.354a.5.5 0 1 1-.708-.708L11.793 4H6.5A.5.5 0 0 1 6 3z"/>
+        <path d="M13.5 13a.5.5 0 0 1-.5.5H3A2 2 0 0 1 1 11.5V3a2 2 0 0 1 2-2h6.5a.5.5 0 0 1 0 1H3a1 1 0 0 0-1 1v8.5a1 1 0 0 0 1 1h10a.5.5 0 0 1 .5.5z"/>
+      </svg>
+    </a>
+  </div>
+  © <span id="year"></span> A Townsend Solution
+</footer>
 
-/* REELS */
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* LIVE GOOGLE SHEETS API URL */
+const SHEET_API = "https://script.google.com/macros/s/AKfycbwH4vMbfkVN5-kb8bwwm9sz5GAj9owMB6WOHQZ5WTT4tugefnBUmzCUyyh4iKR2GoTd/exec";
+
+/* === REELS === */
 const symbols=["cherry.png","diamond.png","seven.png","logo.png"];
 const loops=25;
 
@@ -192,7 +160,6 @@ function buildReel(id){
 function spinSingle(id,delay){
   const reel=document.getElementById(id);
   buildReel(id);
-
   const containerHeight=reel.parentElement.offsetHeight;
   const totalHeight=reel.scrollHeight-containerHeight;
 
@@ -203,14 +170,9 @@ function spinSingle(id,delay){
     reel.style.transition=`transform ${3+delay}s cubic-bezier(.15,.8,.2,1)`;
     reel.style.transform=`translateY(-${totalHeight}px)`;
   },100);
-
-  setTimeout(()=>{
-    reel.parentElement.classList.add("win-glow");
-  },3000+(delay*1000));
 }
 
 function spinReels(){
-  document.querySelectorAll(".reel-container").forEach(r=>r.classList.remove("win-glow"));
   spinSingle("reel1",0);
   spinSingle("reel2",0.5);
   spinSingle("reel3",1);
@@ -220,175 +182,57 @@ buildReel("reel1");
 buildReel("reel2");
 buildReel("reel3");
 
-/* FULL PROMO LIST */
-const promos=[
-{
-platform:"CrownCoins",
-url:"https://crowncoinscasino.com/?utm_campaign=e5a62c74-1909-4463-a6c8-f958748a9be4&utm_source=friends",
-bonus:60,wager:5,cashback:5,daily:1,expires:"2026-03-15"
-},
-{
-platform:"LoneStar Casino",
-url:"https://lonestarcasino.com/refer/1490917",
-bonus:105,wager:5,cashback:3,daily:1,expires:"2026-03-15"
-},
-{
-platform:"Stake.us",
-url:"https://stake.us/?c=n75tP6HL",
-bonus:56,wager:3,cashback:8,daily:1,expires:"2026-03-20"
-},
-{
-platform:"McLuck Casino",
-url:"https://mcluckcasino.com",
-bonus:30,wager:4,cashback:2,daily:1,expires:"2026-03-15"
-},
-{
-platform:"MegaBonanza",
-url:"https://www.megabonanza.com/?r=336854633",
-bonus:50,wager:4,cashback:1,daily:0.8,expires:"2026-03-12"
-},
-{
-platform:"Jackpota",
-url:"https://www.jackpota.com/?r=411608798",
-bonus:35,wager:3,cashback:3,daily:1,expires:"2026-03-22"
-},
-{
-platform:"Sixty6 Casino",
-url:"https://sixty6casino.com",
-bonus:2,wager:6,cashback:0,daily:0.5,expires:"2026-03-10"
-},
-{
-platform:"SweepNext Casino",
-url:"https://sweepnextcasino.com",
-bonus:50,wager:4,cashback:2,daily:0.7,expires:"2026-03-18"
-},
-{
-platform:"Sweet Sweeps Casino",
-url:"https://sweetsweepscasino.com",
-bonus:40,wager:5,cashback:2,daily:0.7,expires:"2026-03-14"
-},
-{
-platform:"Hello Millions",
-url:"https://www.hellomillions.com/lp/raf?r=aaa5691e%2F2187439757",
-bonus:25,wager:4,cashback:1,daily:0.6,expires:"2026-03-15"
-},
-{
-platform:"Rolla Casino",
-url:"https://rollacasino.com",
-bonus:30,wager:4,cashback:2,daily:0.8,expires:"2026-03-15"
-},
-{
-platform:"MyPrize.US",
-url:"https://myprize.us",
-bonus:60,wager:3,cashback:3,daily:1,expires:"2026-03-20"
-},
-{
-platform:"Spree Casino",
-url:"https://spreecasino.com",
-bonus:50,wager:4,cashback:2,daily:0.7,expires:"2026-03-16"
-},
-{
-platform:"Fortune Coins",
-url:"https://fortunecoins.com",
-bonus:20,wager:5,cashback:1,daily:0.4,expires:"2026-03-10"
-},
-{
-platform:"ACE.com Casino",
-url:"https://ace.com",
-bonus:2.5,wager:5,cashback:0,daily:0.5,expires:"2026-03-18"
-}
-];
+/* === LIVE DATA FROM SHEETS === */
 function calculateValueScore(p){
-return ((p.bonus+(p.daily*7))/p.wager+(p.cashback/10)).toFixed(2);
+  return ((p.Bonus+(p.Daily*7))/p.Wager+(p.Cashback/10)).toFixed(2);
 }
 
 function riskLevel(w){
-if(w<=1)return{label:"Low",color:"text-green-400"};
-if(w<=5)return{label:"Medium",color:"text-yellow-400"};
-return{label:"High",color:"text-red-500"};
+  if(w<=1)return{label:"Low",color:"text-green-400"};
+  if(w<=5)return{label:"Medium",color:"text-yellow-400"};
+  return{label:"High",color:"text-red-500"};
 }
 
 function renderTable(data){
-const table=document.getElementById("promoTable");
-table.innerHTML="";
-data.forEach(p=>{
-const score=calculateValueScore(p);
-const risk=riskLevel(p.wager);
-table.innerHTML+=`
+  const table=document.getElementById("promoTable");
+  table.innerHTML="";
+  data.forEach(p=>{
+    const score=calculateValueScore(p);
+    const risk=riskLevel(p.Wager);
+    table.innerHTML+=`
 <tr class="border-b border-gray-800">
 <td class="p-3 font-semibold">
-<a href="${p.url}" target="_blank" class="text-blue-400 hover:text-blue-300 hover:underline">
-${p.platform}
+<a href="${p.URL}" target="_blank" class="text-blue-400 hover:text-blue-300 hover:underline">
+${p.Platform}
 </a>
 </td>
-<td class="p-3">$${p.bonus}</td>
-<td class="p-3">${p.wager}x</td>
-<td class="p-3">${p.cashback}%</td>
-<td class="p-3">$${p.daily}</td>
-<td class="p-3">${p.expires}</td>
+<td class="p-3">$${p.Bonus}</td>
+<td class="p-3">${p.Wager}x</td>
+<td class="p-3">${p.Cashback}%</td>
+<td class="p-3">$${p.Daily}</td>
+<td class="p-3">${p.Expires}</td>
 <td class="p-3 font-semibold text-green-400">${score}</td>
 <td class="p-3 font-semibold ${risk.color}">${risk.label}</td>
 </tr>`;
-});
+  });
 }
 
-document.getElementById("searchInput").addEventListener("input",e=>{
-const value=e.target.value.toLowerCase();
-renderTable(promos.filter(p=>p.platform.toLowerCase().includes(value)));
-});
-
-renderTable(promos);
-
+fetch(SHEET_API)
+  .then(res=>res.json())
+  .then(data=>{
+    renderTable(data);
+    document.getElementById("searchInput").addEventListener("input",e=>{
+      const value=e.target.value.toLowerCase();
+      renderTable(data.filter(p=>p.Platform.toLowerCase().includes(value)));
+    });
+  })
+  .catch(err=>{
+    console.error("Sheet load failed:",err);
+    document.getElementById("promoTable").innerHTML =
+      "<tr><td colspan='8' class='p-4 text-center text-red-400'>Failed to load live data.</td></tr>";
+  });
 </script>
-  <section class="max-w-3xl mx-auto mt-16 text-gray-300 text-sm sm:text-base leading-relaxed px-4">
 
-<h2 class="text-xl font-semibold mb-4 text-white">
-What Is Sweeps Snapshot Pro?
-</h2>
-
-<p class="mb-4">
-Sweeps Snapshot Pro is a sweepstakes casino comparison tool that analyzes promotional bonuses, wagering requirements, cashback percentages, and daily reward values to generate an objective value score.
-</p>
-
-<p class="mb-4">
-Instead of manually comparing multiple sweepstakes casino offers, players can use this tool to quickly evaluate potential edge, risk level, and rollover impact.
-</p>
-
-<p>
-This tool is provided by A Townsend Solution and is designed for informational comparison purposes only.
-</p>
-
-</section>
-<footer class="border-t border-gray-800 mt-12 pt-6 pb-8 text-center text-sm text-gray-400">
-
-  <div class="mb-3">
-    <a href="https://www.illbid.com" 
-       target="_blank" 
-       rel="noopener noreferrer"
-       class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 hover:underline">
-       
-      For the Best Prices on the Internet Visit illbid.com
-      
-      <!-- External Link Icon -->
-      <svg xmlns="http://www.w3.org/2000/svg" 
-           width="16" height="16" 
-           fill="currentColor" 
-           viewBox="0 0 16 16">
-        <path d="M6 3a.5.5 0 0 1 .5-.5H13a.5.5 0 0 1 .5.5v6.5a.5.5 0 0 1-1 0V4.707L4.854 12.354a.5.5 0 1 1-.708-.708L11.793 4H6.5A.5.5 0 0 1 6 3z"/>
-        <path d="M13.5 13a.5.5 0 0 1-.5.5H3A2 2 0 0 1 1 11.5V3a2 2 0 0 1 2-2h6.5a.5.5 0 0 1 0 1H3a1 1 0 0 0-1 1v8.5a1 1 0 0 0 1 1h10a.5.5 0 0 1 .5.5z"/>
-      </svg>
-    </a>
-  </div>
-
-  <div>
-    © <span id="year"></span> A Townsend Solution
-  </div>
-
-</footer>
-
-<script>
-document.getElementById("year").textContent = new Date().getFullYear();
-</script>
 </body>
 </html>
 
