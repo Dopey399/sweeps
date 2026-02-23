@@ -3,7 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sweeps Snapshot Pro | Live Sweepstakes Casino Comparison Tool</title>
+<title>Sweeps Snapshot Pro | Sweepstakes Casino Bonus & Wagering Comparison Tool</title>
+
+<meta name="description" content="Sweeps Snapshot Pro tracks sweepstakes casino bonuses, wagering requirements, cashback offers, and edge value scoring to help players compare promotions intelligently.">
+<meta name="keywords" content="sweepstakes casinos, sweeps casino bonuses, wagering requirements, sweepstakes comparison tool, casino promo tracker, sweeps value score">
+<meta name="author" content="A Townsend Solution">
+<meta name="robots" content="index, follow">
+
+<meta property="og:title" content="Sweeps Snapshot Pro - Sweepstakes Casino Bonus Tracker">
+<meta property="og:description" content="Compare sweepstakes casino bonuses, wagering requirements, cashback rates, and value scores in one place.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://sweeps.tradelotdeals.com">
+<meta property="og:image" content="https://sweeps.tradelotdeals.com/logo.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Sweeps Snapshot Pro">
+<meta name="twitter:description" content="Compare sweepstakes casino bonuses and value scores intelligently.">
+<meta name="twitter:image" content="https://sweeps.tradelotdeals.com/logo.png">
+
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
@@ -14,11 +31,7 @@ html,body{
   color:#e5e7eb;
   font-family:sans-serif;
 }
-
-.machine{
-  box-shadow:0 0 40px rgba(0,255,0,0.15);
-}
-
+.machine{box-shadow:0 0 40px rgba(0,255,0,0.15);}
 .reel-container{
   width:100px;
   height:100px;
@@ -28,216 +41,42 @@ html,body{
   background:#111827;
   position:relative;
 }
-
 @media(min-width:640px){
-  .reel-container{
-    width:130px;
-    height:130px;
-  }
+  .reel-container{width:130px;height:130px;}
 }
-
-.reel-strip{
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-}
-
+.reel-strip{position:absolute;top:0;left:0;width:100%;}
 .reel-strip img{
   width:100%;
   height:100px;
   object-fit:contain;
   display:block;
 }
-
 @media(min-width:640px){
-  .reel-strip img{
-    height:130px;
-  }
+  .reel-strip img{height:130px;}
 }
-
 .win-glow{
   animation:glow 1s ease-in-out infinite alternate;
 }
-
 @keyframes glow{
   from{box-shadow:0 0 10px rgba(0,255,0,0.2);}
   to{box-shadow:0 0 25px rgba(0,255,0,0.7);}
 }
 </style>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Sweeps Snapshot Pro",
+  "description": "A comparison tool for sweepstakes casino bonuses, wagering requirements, cashback rates, and value scoring.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Web",
+  "author": {
+    "@type": "Organization",
+    "name": "A Townsend Solution"
+  }
+}
+</script>
 </head>
 
 <body>
-
-<section class="min-h-screen flex flex-col items-center justify-center text-center px-4">
-<img src="logo.png" class="w-44 sm:w-56 mb-6">
-
-<div class="machine bg-gray-900 p-5 rounded-xl border border-gray-800 w-full max-w-md">
-  <div class="flex justify-center gap-4 mb-6">
-    <div class="reel-container"><div class="reel-strip" id="reel1"></div></div>
-    <div class="reel-container"><div class="reel-strip" id="reel2"></div></div>
-    <div class="reel-container"><div class="reel-strip" id="reel3"></div></div>
-  </div>
-
-  <button onclick="spinReels()" 
-  class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg font-semibold w-full">
-  Spin
-  </button>
-</div>
-</section>
-
-<section class="px-4 sm:px-8 pb-12">
-
-<h1 class="text-2xl sm:text-3xl font-semibold mb-6 text-center">
-Live Sweepstakes Casino Comparison
-</h1>
-
-<div class="flex justify-center mb-6">
-<input type="text" id="searchInput" placeholder="Search platform..."
-class="p-2 rounded bg-gray-800 text-white w-full sm:w-64 outline-none"/>
-</div>
-
-<div class="overflow-x-auto rounded-lg border border-gray-800">
-<table class="min-w-full text-xs sm:text-sm">
-<thead class="bg-gray-800">
-<tr>
-<th class="p-3 text-left">Platform</th>
-<th class="p-3 text-left">Bonus</th>
-<th class="p-3 text-left">Wager</th>
-<th class="p-3 text-left">Cashback %</th>
-<th class="p-3 text-left">Daily Bonus</th>
-<th class="p-3 text-left">Expires</th>
-<th class="p-3 text-left">Value Score</th>
-<th class="p-3 text-left">Risk</th>
-</tr>
-</thead>
-<tbody id="promoTable"></tbody>
-</table>
-</div>
-
-</section>
-
-<footer class="border-t border-gray-800 mt-12 pt-6 pb-8 text-center text-sm text-gray-400">
-  <div class="mb-3">
-    <a href="https://www.illbid.com" target="_blank" rel="noopener noreferrer"
-       class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300 hover:underline">
-      Visit illbid.com
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-           fill="currentColor" viewBox="0 0 16 16">
-        <path d="M6 3a.5.5 0 0 1 .5-.5H13a.5.5 0 0 1 .5.5v6.5a.5.5 0 0 1-1 0V4.707L4.854 12.354a.5.5 0 1 1-.708-.708L11.793 4H6.5A.5.5 0 0 1 6 3z"/>
-        <path d="M13.5 13a.5.5 0 0 1-.5.5H3A2 2 0 0 1 1 11.5V3a2 2 0 0 1 2-2h6.5a.5.5 0 0 1 0 1H3a1 1 0 0 0-1 1v8.5a1 1 0 0 0 1 1h10a.5.5 0 0 1 .5.5z"/>
-      </svg>
-    </a>
-  </div>
-  © <span id="year"></span> A Townsend Solution
-</footer>
-
-<script>
-document.getElementById("year").textContent = new Date().getFullYear();
-
-/* LIVE GOOGLE SHEETS API URL */
-const SHEET_API = "https://script.google.com/macros/s/AKfycbwH4vMbfkVN5-kb8bwwm9sz5GAj9owMB6WOHQZ5WTT4tugefnBUmzCUyyh4iKR2GoTd/exec";
-
-/* === REELS === */
-const symbols=["cherry.png","diamond.png","seven.png","logo.png"];
-const loops=25;
-
-function buildReel(id){
-  const reel=document.getElementById(id);
-  reel.innerHTML="";
-  for(let i=0;i<loops;i++){
-    symbols.forEach(sym=>{
-      const img=document.createElement("img");
-      img.src=sym;
-      reel.appendChild(img);
-    });
-  }
-  const final=document.createElement("img");
-  final.src="logo.png";
-  reel.appendChild(final);
-}
-
-function spinSingle(id,delay){
-  const reel=document.getElementById(id);
-  buildReel(id);
-  const containerHeight=reel.parentElement.offsetHeight;
-  const totalHeight=reel.scrollHeight-containerHeight;
-
-  reel.style.transition="none";
-  reel.style.transform="translateY(0px)";
-
-  setTimeout(()=>{
-    reel.style.transition=`transform ${3+delay}s cubic-bezier(.15,.8,.2,1)`;
-    reel.style.transform=`translateY(-${totalHeight}px)`;
-  },100);
-}
-
-function spinReels(){
-  spinSingle("reel1",0);
-  spinSingle("reel2",0.5);
-  spinSingle("reel3",1);
-}
-
-buildReel("reel1");
-buildReel("reel2");
-buildReel("reel3");
-
-/* === LIVE DATA FROM SHEETS === */
-function calculateValueScore(p){
-  return ((p.Bonus+(p.Daily*7))/p.Wager+(p.Cashback/10)).toFixed(2);
-}
-
-function riskLevel(w){
-  if(w<=1)return{label:"Low",color:"text-green-400"};
-  if(w<=5)return{label:"Medium",color:"text-yellow-400"};
-  return{label:"High",color:"text-red-500"};
-}
-
-function renderTable(data){
-  const table=document.getElementById("promoTable");
-  table.innerHTML="";
-  data.forEach(p=>{
-    const score=calculateValueScore(p);
-    const risk=riskLevel(p.Wager);
-    table.innerHTML+=`
-<tr class="border-b border-gray-800">
-<td class="p-3 font-semibold">
-<a href="${p.URL}" target="_blank" class="text-blue-400 hover:text-blue-300 hover:underline">
-${p.Platform}
-</a>
-</td>
-<td class="p-3">$${p.Bonus}</td>
-<td class="p-3">${p.Wager}x</td>
-<td class="p-3">${p.Cashback}%</td>
-<td class="p-3">$${p.Daily}</td>
-<td class="p-3">${p.Expires}</td>
-<td class="p-3 font-semibold text-green-400">${score}</td>
-<td class="p-3 font-semibold ${risk.color}">${risk.label}</td>
-</tr>`;
-  });
-}
-
-fetch(SHEET_API)
-  .then(res=>res.json())
-  .then(data=>{
-    renderTable(data);
-    document.getElementById("searchInput").addEventListener("input",e=>{
-      const value=e.target.value.toLowerCase();
-      renderTable(data.filter(p=>p.Platform.toLowerCase().includes(value)));
-    });
-  })
-  .catch(err=>{
-    console.error("Sheet load failed:",err);
-    document.getElementById("promoTable").innerHTML =
-      "<tr><td colspan='8' class='p-4 text-center text-red-400'>Failed to load live data.</td></tr>";
-  });
-</script>
-
-</body>
-</html>
-
-
-
-
-
-
