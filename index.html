@@ -56,13 +56,24 @@ to{box-shadow:0 0 25px rgba(0,255,0,0.7);}
 <body class="text-gray-200 min-h-screen px-4 sm:px-8 pt-4 pb-6">
 
 <div class="text-center mb-8">
-<img src="logo.png" class="w-44 sm:w-56 mx-auto mb-4">
+<section class="min-h-[85vh] flex flex-col items-center justify-center text-center">
 
-<div class="machine bg-gray-900 p-3 sm:p-5 rounded-xl border border-gray-800 w-full max-w-md mx-auto">
-<div class="flex justify-center gap-4 mb-5">
-<div class="reel-container"><div class="reel-strip" id="reel1"></div></div>
-<div class="reel-container"><div class="reel-strip" id="reel2"></div></div>
-<div class="reel-container"><div class="reel-strip" id="reel3"></div></div>
+  <img src="logo.png" class="w-44 sm:w-56 mb-4">
+
+  <div class="machine bg-gray-900 p-3 sm:p-5 rounded-xl border border-gray-800 w-full max-w-md">
+    <div class="flex justify-center gap-4 mb-5">
+      <div class="reel-container"><div class="reel-strip" id="reel1"></div></div>
+      <div class="reel-container"><div class="reel-strip" id="reel2"></div></div>
+      <div class="reel-container"><div class="reel-strip" id="reel3"></div></div>
+    </div>
+
+    <button onclick="spinReels()" 
+      class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg font-semibold w-full">
+      Spin
+    </button>
+  </div>
+
+</section>
 </div>
 
 <button onclick="spinReels()" 
@@ -217,3 +228,4 @@ renderTable(promos);
 </script>
 </body>
 </html>
+
