@@ -80,7 +80,27 @@ html,body{
 </head>
 
 <body>
-</head>
 
-<body>
+<section class="min-h-screen flex flex-col items-center justify-center text-center px-4">
 
+<img src="logo.png" class="w-44 sm:w-56 mb-6">
+
+<div class="machine bg-gray-900 p-5 rounded-xl border border-gray-800 w-full max-w-md">
+  <div class="flex justify-center gap-4 mb-6">
+    <div class="reel-container"><div class="reel-strip" id="reel1"></div></div>
+    <div class="reel-container"><div class="reel-strip" id="reel2"></div></div>
+    <div class="reel-container"><div class="reel-strip" id="reel3"></div></div>
+  </div>
+
+  <button onclick="spinReels()" 
+  class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg font-semibold w-full">
+  Spin
+  </button>
+</div>
+
+</section>
+
+<!-- keep rest of your existing working content exactly as before -->
+
+</body>
+</html>
