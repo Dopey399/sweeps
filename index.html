@@ -122,27 +122,37 @@ reel.appendChild(img);
 }
 }
 
-function spinSingle(id,delay){
-const reel=document.getElementById(id);
-buildReel(id);
+function spinSingle(id, delay) {
+  const reel = document.getElementById(id);
+  buildReel(id);
 
-const container=reel.parentElement;
-const symbolHeight=container.offsetHeight;
-const totalSymbols=reel.children.length;
-const finalOffset=(totalSymbols-1)*symbolHeight;
+  const container = reel.parentElement;
+  const images = reel.querySelectorAll("img");
 
-reel.style.transition="none";
-reel.style.transform="translateY(0px)";
+  // Wait for images to render
+  setTimeout(() => {
 
-setTimeout(()=>{
-reel.style.transition=`transform ${3+delay}s cubic-bezier(.17,.67,.12,1.1)`;
-reel.style.transform=`translateY(-${finalOffset}px)`;
-},100);
+    const symbolHeight = images[0].offsetHeight;
+    const totalSymbols = images.length;
 
-setTimeout(()=>{
-container.classList.add("win-glow");
-},3000+(delay*1000));
+    // Land on last symbol cleanly
+    const finalOffset = (totalSymbols - 1) * symbolHeight;
+
+    reel.style.transition = "none";
+    reel.style.transform = "translateY(0px)";
+
+    setTimeout(() => {
+      reel.style.transition = `transform ${3 + delay}s cubic-bezier(.17,.67,.12,1.1)`;
+      reel.style.transform = `translateY(-${finalOffset}px)`;
+    }, 100);
+
+    setTimeout(() => {
+      container.classList.add("win-glow");
+    }, 3000 + (delay * 1000));
+
+  }, 50);
 }
+
 
 function spinReels(){
 document.querySelectorAll(".reel-container").forEach(r=>r.classList.remove("win-glow"));
@@ -214,4 +224,5 @@ renderTable(promos);
 </script>
 </body>
 </html>
+
 
