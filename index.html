@@ -6,46 +6,52 @@
 <script src="https://cdn.tailwindcss.com"></script>
 
 <style>
-body{background:#0f172a;}
+html,body{
+  margin:0;
+  padding:0;
+  background:#0f172a;
+  color:#e5e7eb;
+}
 
-.machine{box-shadow:0 0 40px rgba(0,255,0,0.15);}
+.machine{
+  box-shadow:0 0 40px rgba(0,255,0,0.15);
+}
 
 .reel-container{
-width:95px;
-height:95px;
-overflow:hidden;
-border:3px solid #1f2937;
-border-radius:10px;
-background:#111827;
-position:relative;
+  width:95px;
+  height:95px;
+  overflow:hidden;
+  border:3px solid #1f2937;
+  border-radius:10px;
+  background:#111827;
 }
 
 @media(min-width:640px){
-.reel-container{
-width:125px;
-height:125px;
-}
+  .reel-container{
+    width:125px;
+    height:125px;
+  }
 }
 
 .reel-strip{
-display:flex;
-flex-direction:column;
+  display:flex;
+  flex-direction:column;
 }
 
 .reel-strip img{
-width:100%;
-height:100%;
-object-fit:contain;
-padding:6px;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  padding:6px;
 }
 
 .win-glow{
-animation:glow 1s ease-in-out infinite alternate;
+  animation:glow 1s ease-in-out infinite alternate;
 }
 
 @keyframes glow{
-from{box-shadow:0 0 10px rgba(0,255,0,0.2);}
-to{box-shadow:0 0 25px rgba(0,255,0,0.7);}
+  from{box-shadow:0 0 10px rgba(0,255,0,0.2);}
+  to{box-shadow:0 0 25px rgba(0,255,0,0.7);}
 }
 
 .site-link{color:#38bdf8;}
@@ -53,14 +59,14 @@ to{box-shadow:0 0 25px rgba(0,255,0,0.7);}
 </style>
 </head>
 
-<body class="text-gray-200 min-h-screen px-4 sm:px-8 pt-4 pb-6">
+<body>
 
-<div class="text-center mb-8">
-<section class="min-h-[85vh] flex flex-col items-center justify-center text-center">
+<!-- HERO SECTION -->
+<section class="min-h-screen flex flex-col items-center justify-center text-center px-4">
 
   <img src="logo.png" class="w-44 sm:w-56 mb-4">
 
-  <div class="machine bg-gray-900 p-3 sm:p-5 rounded-xl border border-gray-800 w-full max-w-md">
+  <div class="machine bg-gray-900 p-4 rounded-xl border border-gray-800 w-full max-w-md">
     <div class="flex justify-center gap-4 mb-5">
       <div class="reel-container"><div class="reel-strip" id="reel1"></div></div>
       <div class="reel-container"><div class="reel-strip" id="reel2"></div></div>
@@ -74,14 +80,9 @@ to{box-shadow:0 0 25px rgba(0,255,0,0.7);}
   </div>
 
 </section>
-</div>
 
-<button onclick="spinReels()" 
-class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg font-semibold w-full">
-Spin
-</button>
-</div>
-</div>
+<!-- TOOL SECTION -->
+<section class="px-4 sm:px-8 pb-12">
 
 <h1 class="text-2xl sm:text-3xl font-semibold mb-2 text-center">
 Sweeps Snapshot Pro
@@ -116,6 +117,8 @@ class="p-2 rounded bg-gray-800 text-white w-full sm:w-48 outline-none"/>
 <tbody id="promoTable"></tbody>
 </table>
 </div>
+
+</section>
 
 <script>
 
@@ -228,4 +231,3 @@ renderTable(promos);
 </script>
 </body>
 </html>
-
