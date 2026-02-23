@@ -215,116 +215,64 @@ buildReel("reel2");
 buildReel("reel3");
 
 /* FULL PROMO LIST */
-const promos=[
-{
-platform:"CrownCoins",
-url:"https://crowncoinscasino.com/?utm_campaign=e5a62c74-1909-4463-a6c8-f958748a9be4&utm_source=friends",
-bonus:60,wager:5,cashback:5,daily:1,expires:"2026-03-15"
-},
-{
-platform:"LoneStar Casino",
-url:"https://lonestarcasino.com/refer/1490917",
-bonus:105,wager:5,cashback:3,daily:1,expires:"2026-03-15"
-},
-{
-platform:"Stake.us",
-url:"https://stake.us/?c=n75tP6HL",
-bonus:56,wager:3,cashback:8,daily:1,expires:"2026-03-20"
-},
-{
-platform:"McLuck Casino",
-url:"https://mcluckcasino.com",
-bonus:30,wager:4,cashback:2,daily:1,expires:"2026-03-15"
-},
-{
-platform:"MegaBonanza",
-url:"https://www.megabonanza.com/?r=336854633",
-bonus:50,wager:4,cashback:1,daily:0.8,expires:"2026-03-12"
-},
-{
-platform:"Jackpota",
-url:"https://www.jackpota.com/?r=411608798",
-bonus:35,wager:3,cashback:3,daily:1,expires:"2026-03-22"
-},
-{
-platform:"Sixty6 Casino",
-url:"https://sixty6casino.com",
-bonus:2,wager:6,cashback:0,daily:0.5,expires:"2026-03-10"
-},
-{
-platform:"SweepNext Casino",
-url:"https://sweepnextcasino.com",
-bonus:50,wager:4,cashback:2,daily:0.7,expires:"2026-03-18"
-},
-{
-platform:"Sweet Sweeps Casino",
-url:"https://sweetsweepscasino.com",
-bonus:40,wager:5,cashback:2,daily:0.7,expires:"2026-03-14"
-},
-{
-platform:"Hello Millions",
-url:"https://www.hellomillions.com/lp/raf?r=aaa5691e%2F2187439757",
-bonus:25,wager:4,cashback:1,daily:0.6,expires:"2026-03-15"
-},
-{
-platform:"Rolla Casino",
-url:"https://rollacasino.com",
-bonus:30,wager:4,cashback:2,daily:0.8,expires:"2026-03-15"
-},
-{
-platform:"MyPrize.US",
-url:"https://myprize.us",
-bonus:60,wager:3,cashback:3,daily:1,expires:"2026-03-20"
-},
-{
-platform:"Spree Casino",
-url:"https://spreecasino.com",
-bonus:50,wager:4,cashback:2,daily:0.7,expires:"2026-03-16"
-},
-{
-platform:"Fortune Coins",
-url:"https://fortunecoins.com",
-bonus:20,wager:5,cashback:1,daily:0.4,expires:"2026-03-10"
-},
-{
-platform:"ACE.com Casino",
-url:"https://ace.com",
-bonus:2.5,wager:5,cashback:0,daily:0.5,expires:"2026-03-18"
-}
-];
+/* === LIVE GOOGLE SHEETS DATA === */
+const SHEET_API = "https://script.google.com/macros/s/AKfycbwH4vMbfkVN5-kb8bwwm9sz5GAj9owMB6WOHQZ5WTT4tugefnBUmzCUyyh4iKR2GoTd/exec";
+
 function calculateValueScore(p){
-return ((p.bonus+(p.daily*7))/p.wager+(p.cashback/10)).toFixed(2);
+  return ((p.Bonus + (p.Daily * 7)) / p.Wager + (p.Cashback / 10)).toFixed(2);
 }
 
 function riskLevel(w){
-if(w<=1)return{label:"Low",color:"text-green-400"};
-if(w<=5)return{label:"Medium",color:"text-yellow-400"};
-return{label:"High",color:"text-red-500"};
+  if(w <= 1) return { label:"Low", color:"text-green-400" };
+  if(w <= 5) return { label:"Medium", color:"text-yellow-400" };
+  return { label:"High", color:"text-red-500" };
 }
 
 function renderTable(data){
-const table=document.getElementById("promoTable");
-table.innerHTML="";
-data.forEach(p=>{
-const score=calculateValueScore(p);
-const risk=riskLevel(p.wager);
-table.innerHTML+=`
+  const table = document.getElementById("promoTable");
+  table.innerHTML = "";
+
+  data.forEach(p=>{
+    const score = calculateValueScore(p);
+    const risk = riskLevel(p.Wager);
+
+    table.innerHTML += `
 <tr class="border-b border-gray-800">
 <td class="p-3 font-semibold">
-<a href="${p.url}" target="_blank" class="text-blue-400 hover:text-blue-300 hover:underline">
-${p.platform}
+<a href="${p.URL}" target="_blank" class="text-blue-400 hover:text-blue-300 hover:underline">
+${p.Platform}
 </a>
 </td>
-<td class="p-3">$${p.bonus}</td>
-<td class="p-3">${p.wager}x</td>
-<td class="p-3">${p.cashback}%</td>
-<td class="p-3">$${p.daily}</td>
-<td class="p-3">${p.expires}</td>
+<td class="p-3">$${p.Bonus}</td>
+<td class="p-3">${p.Wager}x</td>
+<td class="p-3">${p.Cashback}%</td>
+<td class="p-3">$${p.Daily}</td>
+<td class="p-3">${p.Expires}</td>
 <td class="p-3 font-semibold text-green-400">${score}</td>
 <td class="p-3 font-semibold ${risk.color}">${risk.label}</td>
 </tr>`;
-});
+  });
 }
+
+fetch(SHEET_API)
+  .then(res => res.json())
+  .then(data => {
+    renderTable(data);
+
+    document.getElementById("searchInput").addEventListener("input", e=>{
+      const value = e.target.value.toLowerCase();
+      renderTable(
+        data.filter(p =>
+          p.Platform.toLowerCase().includes(value)
+        )
+      );
+    });
+  })
+  .catch(err=>{
+    console.error("Sheet load failed:", err);
+    document.getElementById("promoTable").innerHTML =
+      "<tr><td colspan='8' class='p-4 text-center text-red-400'>Failed to load live data.</td></tr>";
+  });
 
 document.getElementById("searchInput").addEventListener("input",e=>{
 const value=e.target.value.toLowerCase();
@@ -385,5 +333,6 @@ document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 </body>
 </html>
+
 
 
